@@ -1,0 +1,22 @@
+syntax = "proto3";
+package tutorial;
+
+import "google/protobuf/timestamp.proto";
+// [END declaration]
+
+// [START csharp_declaration]
+option csharp_namespace = "SensorMsg";
+// [END csharp_declaration]
+
+// [START messages]
+message SensorData {
+  double batteryLevel = 1;
+  bool Motion = 2;
+  double Ultraviolet = 3;
+  double Luminance = 4;
+  double RelativeHumidity = 5;
+  double Temperature =6;
+  google.protobuf.Timestamp last_updated = 7;
+}
+
+
