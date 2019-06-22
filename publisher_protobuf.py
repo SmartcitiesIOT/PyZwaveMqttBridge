@@ -142,7 +142,7 @@ node = 2
 while 1:
 
     Sensor = SensorMsg_pb2.SensorData()
-    mqttc.publish(MQTT_TOPIC,MQTT_MSG)
+    #mqttc.publish(MQTT_TOPIC,MQTT_MSG)
     for val in network.nodes[node].get_sensors() :
         print("  label/help : {}/{}".format(network.nodes[node].values[val].label,network.nodes[node].values[val].help))
         print("  value: {} {}".format(network.nodes[node].get_sensor_value(val), network.nodes[node].values[val].units))
