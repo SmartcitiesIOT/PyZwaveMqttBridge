@@ -16,22 +16,10 @@ MQTT_TOPIC = "base"
 def on_publish(client, userdata, mid):
     print "Message Published..."
 
-def on_connect(client, userdata, flags, rc):
-    client.subscribe(MQTT_TOPIC)
-    client.publish(MQTT_TOPIC, MQTT_MSG)
-
-def on_message(client, userdata, msg):
-    print(msg.topic)
-    print(msg.payload) # <- do you mean this payload = {...} ?
-    payload = json.loads(msg.payload) # you can use json.loads to convert string to json
-    print(payload) # then you can check the value
-    client.disconnect() # Got message then disconnect
 
 poll_time = 1 #change sensor polltime
 mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
-mqttc.on_connect = on_connect
-mqttc.on_message = on_message
 mqttc.connect(MQTT_HOST, MQTT_PORT, MQTT_KEEPALIVE_INTERVAL)
 
 #logging.getLogger('openzwave').addHandler(logging.NullHandler())
