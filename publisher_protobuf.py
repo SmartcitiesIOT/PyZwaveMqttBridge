@@ -13,13 +13,19 @@ MQTT_HOST = "localhost"
 MQTT_PORT = 1883
 MQTT_KEEPALIVE_INTERVAL = 45
 MQTT_TOPIC = "base"
+
+#Definition of Callbacks
 def on_publish(client, userdata, mid):
     print "Message Published..."
 
 
-poll_time = 1 #change sensor polltime
+poll_time = 60 #change sensor polltime
 mqttc = mqtt.Client()
+
+# BInding of Callbacks
 mqttc.on_publish = on_publish
+
+# Connecting to the mqtt broker by ip-address and port
 mqttc.connect(MQTT_HOST, MQTT_PORT, MQTT_KEEPALIVE_INTERVAL)
 
 #logging.getLogger('openzwave').addHandler(logging.NullHandler())
@@ -152,9 +158,11 @@ while 1:
         print("  label/help : {}/{}".format(network.nodes[node].values[val].label,network.nodes[node].values[val].help))
         print("  value : {}".format(network.nodes[node].get_battery_level(val)))
         Sensor.batteryLevel = network.nodes[node].get_battery_level(val)
+    
     Sensor.last_updated.GetCurrentTime()
+    print (Sensor.last_updated)
     MQTT_MSG = Sensor.SerializeToString()
-    mqttc.publish(MQTT_TOPIC,MQTT_MSG)
+    mqttc.publish(MQTT_TOPIC,MQTT_MSG,qos=0, retain=True)
     #Sensor.last_updated = str(time.time())
     time.sleep(poll_time)
     #SensorRead = SensorMsg_pb2.SensorData()
