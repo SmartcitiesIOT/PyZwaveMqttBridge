@@ -20,6 +20,7 @@ def on_publish(client, userdata, mid):
 
 
 poll_time = 60 #change sensor polltime
+#poll_time =1
 mqttc = mqtt.Client()
 
 # BInding of Callbacks
@@ -145,7 +146,11 @@ while 1:
         elif  network.nodes[node].values[val].label == "Ultraviolet" :
             Sensor.Ultraviolet = network.nodes[node].get_sensor_value(val)
         elif  network.nodes[node].values[val].label == "Temperature" :
-            Sensor.Temperature = network.nodes[node].get_sensor_value(val)
+            if network.nodes[node].values[val].units  == 'F':
+                Sensor.Temperature = (network.nodes[node].get_sensor_value(val) -32 ) *5.0/9.0
+            else:
+                Sensor.Temperature = network.nodes[node].get_sensor_value(val)
+            print(Sensor.Temperature)
         elif  network.nodes[node].values[val].label == "Luminance" :
             Sensor.Luminance = network.nodes[node].get_sensor_value(val)
         elif  network.nodes[node].values[val].label == "Relative Humidity" :
